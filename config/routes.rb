@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     end
   end
 
+  root "editors#index"
+  get "pages/:id/edit", to: "editors#show", as: :edit_page
   get "pages/:id/preview", to: "previews#show", as: :page_preview
   get "p/:slug", to: "public_pages#show", as: :public_page
 end
