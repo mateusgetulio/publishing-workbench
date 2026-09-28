@@ -125,6 +125,10 @@ button.primary {
 }
 
 .editor-body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr) 320px;
   flex: 1;

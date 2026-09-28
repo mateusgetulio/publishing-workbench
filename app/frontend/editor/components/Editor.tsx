@@ -45,21 +45,26 @@ export function Editor({ pageId, api, debounceMs }: EditorProps) {
   }, []);
 
   const load = useCallback(
-    () => api.loadPage(pageId).then(applyPayload),
+    () =>
+      api
+        .loadPage(pageId)
+        .then(applyPayload)
+        .catch(() => setNotice("The page could not be loaded. Reload to try again.")),
     [api, pageId, applyPayload],
   );
   const refreshSnapshots = useCallback(
-    () => api.listSnapshots(pageId).then(setSnapshots),
+    () =>
+      api
+        .listSnapshots(pageId)
+        .then(setSnapshots)
+        .catch(() => setNotice("The version list could not be loaded.")),
     [api, pageId],
   );
 
   useEffect(() => {
-    void api
-      .loadPage(pageId)
-      .then(applyPayload)
-      .catch(() => setNotice("The page could not be loaded. Reload to try again."));
-    void api.listSnapshots(pageId).then(setSnapshots);
-  }, [api, pageId, applyPayload]);
+    void load();
+    void refreshSnapshots();
+  }, [load, refreshSnapshots]);
 
   const issues: Issue[] =
     state.publishIssues.length > 0 ? state.publishIssues : publishIssues(state.document);
@@ -100,6 +105,7 @@ export function Editor({ pageId, api, debounceMs }: EditorProps) {
   }, [busy, move, run, selected]);
 
   const addBlock = (type: BlockType) => {
+    if (busy) return;
     const block = newBlock(type);
     const index = selectedIndex === -1 ? state.document.blocks.length : selectedIndex + 1;
     run({ kind: "add_block", block, index });
@@ -158,7 +164,11 @@ export function Editor({ pageId, api, debounceMs }: EditorProps) {
   };
 
   if (!page) {
-    return <p className="editor-loading">Loading the working draft</p>;
+    return (
+      <p className="editor-loading" role="status">
+        {notice ?? "Loading the working draft"}
+      </p>
+    );
   }
 
   return (
@@ -184,7 +194,7 @@ export function Editor({ pageId, api, debounceMs }: EditorProps) {
           {notice}
         </p>
       )}
-      <div className="editor-body" aria-busy={busy}>
+      <fieldset className="editor-body" disabled={busy} aria-busy={busy}>
         <Outline
           document={state.document}
           selectedBlockId={state.selectedBlockId}
@@ -216,7 +226,7 @@ export function Editor({ pageId, api, debounceMs }: EditorProps) {
             onChange={(props) => selected && run({ kind: "update_block", id: selected.id, props })}
           />
         )}
-      </div>
+      </fieldset>
     </div>
   );
 }

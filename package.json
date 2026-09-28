@@ -36,5 +36,8 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "format": "prettier --write app/frontend",
     "format:check": "prettier --check app/frontend"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

@@ -56,7 +56,7 @@ Publish is one transaction: verify the working draft is at the expected revision
 
 ### Rendering
 
-`Rendering::DocumentHtml` turns a document into HTML from the document and `RENDERER_VERSION` alone: no timestamps, no request data, so two renders of one snapshot are byte-identical. `PublicRenderer` and `PreviewRenderer` are thin type guards over it: the first accepts only a `PublishedSnapshot`, the second only a `WorkingDraft`. The React canvas is an editing surface, not a renderer; the Preview button opens the server-rendered draft.
+`Rendering::DocumentHtml` turns a document into HTML from the document and `RENDERER_VERSION` alone: no timestamps, no request data, so two renders of one snapshot are byte-identical. `PublicRenderer` and `PreviewRenderer` are thin type guards over it: the first accepts only a `PublishedSnapshot`, the second only a `WorkingDraft`. The React canvas is an editing surface, not a renderer; the "Preview draft" link opens the server-rendered draft.
 
 The public page sets `ETag: "snapshot-<id>-renderer-v<n>"` and answers `If-None-Match` with 304. Bump `RENDERER_VERSION` whenever the rendering templates or the public stylesheet change, because the body depends on them and the ETag does not track them by itself.
 
@@ -89,12 +89,12 @@ Generated tests are seeded. fast-check prints its seed on failure; the Rails gen
 
 ## Running it
 
-Ruby 3.2 or newer, Node 22 or newer, SQLite.
+Ruby 4.0 (pinned in `.ruby-version`), Node 22 (what CI runs), SQLite.
 
 ```
 bin/setup          # bundle, npm install, database, then starts the server
 bin/rails server   # afterwards, on http://localhost:3000
-bin/ci             # RuboCop, ESLint, Prettier, tsc, Brakeman, Rails tests, Vitest, seeds
+bin/ci             # bin/setup --skip-server, then RuboCop, ESLint, Prettier, tsc, bundler-audit, Brakeman, Rails tests, Vitest, seed replant
 ```
 
 `bin/setup` seeds one page and publishes it through the real publish service, so the demo starts with a public version 1.
