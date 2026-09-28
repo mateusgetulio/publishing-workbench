@@ -4,9 +4,10 @@ import RubyPlugin from "vite-plugin-ruby";
 
 export default defineConfig({
   plugins: [react(), RubyPlugin()],
+  cacheDir: "../../node_modules/.vite",
   test: {
     environment: "jsdom",
-    include: ["app/frontend/**/*.test.{ts,tsx}"],
-    setupFiles: ["app/frontend/test/setup.ts"],
+    include: ["**/*.test.{ts,tsx}"],
+    setupFiles: ["test/setup.ts"],
   },
 });
