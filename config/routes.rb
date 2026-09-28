@@ -7,4 +7,7 @@ Rails.application.routes.draw do
       post "publish", to: "publications#create"
     end
   end
+
+  get "pages/:id/preview", to: "previews#show", as: :page_preview
+  get "p/:slug", to: "public_pages#show", as: :public_page
 end

@@ -1,0 +1,83 @@
+:root {
+  --ink: #1b1b1f;
+  --muted: #5b5f6b;
+  --accent: #2456d9;
+  --surface: #f6f7fb;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: var(--ink);
+  background: #fff;
+  line-height: 1.5;
+}
+
+.banner {
+  background: #fff4d6;
+  color: #5a4300;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.page {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+.block {
+  margin: 0 0 2.5rem;
+}
+
+.block-hero h1 {
+  font-size: 2.4rem;
+  line-height: 1.15;
+  margin: 0 0 0.5rem;
+}
+
+.block-hero p {
+  color: var(--muted);
+  font-size: 1.15rem;
+  margin: 0 0 1.25rem;
+}
+
+.block-rich-text p {
+  margin: 0 0 1rem;
+}
+
+.block-testimonial blockquote {
+  margin: 0;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border-left: 4px solid var(--accent);
+}
+
+.block-testimonial cite {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-style: normal;
+}
+
+.block-cta {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: var(--surface);
+  border-radius: 8px;
+}
+
+.block-cta h2 {
+  margin: 0 0 1rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.65rem 1.2rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
