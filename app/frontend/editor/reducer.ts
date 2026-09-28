@@ -37,7 +37,8 @@ export type EditorAction =
   | { type: "save_started" }
   | { type: "save_succeeded"; revision: number; savedDocument: Document }
   | { type: "save_failed" }
-  | { type: "conflict"; revision: number };
+  | { type: "conflict"; revision: number }
+  | { type: "publish_issues"; issues: Issue[] };
 
 export function initialState(
   document: Document,
@@ -80,6 +81,8 @@ export function reduce(state: EditorState, action: EditorAction): EditorState {
       return saveSucceeded(state, action.revision, action.savedDocument);
     case "save_failed":
       return { ...state, saveStatus: "save_failed", pendingSave: false };
+    case "publish_issues":
+      return { ...state, publishIssues: action.issues };
     case "conflict":
       return {
         ...state,
@@ -128,6 +131,7 @@ function edited(
     ...stacks,
     document,
     selectedBlockId,
+    publishIssues: [],
     saveStatus: nextStatusAfterEdit(state.saveStatus),
     pendingSave: state.saveStatus === "saving" ? true : state.pendingSave,
   };

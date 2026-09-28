@@ -169,6 +169,21 @@ describe("reduce", () => {
     expect(run(failed, { type: "save_started" }).saveStatus).toBe("saving");
   });
 
+  it("an edit discards server-reported publish issues so the client recomputes them", () => {
+    const loaded = run(initialState(base, 0), {
+      type: "loaded",
+      document: base,
+      revision: 1,
+      publishIssues: [{ block_id: "a", field: "headline", message: "Headline is required" }],
+    });
+    expect(loaded.publishIssues).toHaveLength(1);
+    const edited = run(loaded, {
+      type: "command",
+      command: { kind: "update_block", id: "a", props: { headline: "Fixed" } },
+    });
+    expect(edited.publishIssues).toEqual([]);
+  });
+
   it("loading replaces the document and clears history", () => {
     const state = run(
       initialState(base, 0),
