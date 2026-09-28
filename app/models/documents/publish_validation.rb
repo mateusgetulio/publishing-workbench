@@ -23,16 +23,9 @@ module Documents
         Issue.new(block["id"], field, "#{field.humanize} is required") if props[field].blank?
       end
       urls = definition.urls.filter_map do |field|
-        Issue.new(block["id"], field, "#{field.humanize} must be an http or https URL") if props[field].present? && !http_url?(props[field])
+        Issue.new(block["id"], field, "#{field.humanize} must be an http or https URL") if props[field].present? && !HttpUrl.valid?(props[field])
       end
       required + urls
-    end
-
-    def http_url?(value)
-      uri = URI.parse(value)
-      %w[http https].include?(uri.scheme) && uri.host.present?
-    rescue URI::InvalidURIError
-      false
     end
   end
 end

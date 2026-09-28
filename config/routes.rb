@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :pages, only: :show do
       resource :draft, only: :update
+      post "publish", to: "publications#create"
     end
   end
 end

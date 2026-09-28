@@ -16,6 +16,6 @@ page = Page.find_or_create_by!(slug: "launch") { |p| p.title = "Launch page" }
 draft = WorkingDraft.find_or_create_by!(page: page) { |d| d.document = document }
 
 if page.current_published_snapshot.nil?
-  snapshot = page.published_snapshots.create!(document: draft.document, source_revision: draft.revision, published_at: Time.current)
-  page.update!(current_published_snapshot: snapshot)
+  result = Pages::Publish.call(page: page, expected_revision: draft.revision)
+  raise "seed publication failed: #{result.status} #{result.issues.map(&:to_h)}" unless result.published?
 end
