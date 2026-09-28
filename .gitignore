@@ -1,0 +1,29 @@
+/.bundle
+/vendor/bundle
+/log/*
+!/log/.keep
+/tmp/*
+!/tmp/.keep
+/tmp/pids/*
+!/tmp/pids/.keep
+/storage/*
+!/storage/.keep
+/db/*.sqlite3
+/db/*.sqlite3-*
+/config/master.key
+/config/credentials/*.key
+/public/assets
+/public/vite
+/public/vite-dev
+/public/vite-test
+/node_modules
+.env*
+.DS_Store
+
+# Vite Ruby
+/public/vite*
+node_modules
+# Vite uses dotenv and suggests to ignore local-only env files. See
+# https://vite.dev/guide/env-and-mode.html#env-files
+*.local
+
